@@ -6,10 +6,24 @@
 /out-tsc
 /bazel-out
 
-# Node
+# Node / Dependencies
 /node_modules
 npm-debug.log
 yarn-error.log
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+/typings
+
+# Secrets & Local Environment Variables
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.env.*
 
 # IDEs and editors
 .idea/
@@ -29,6 +43,9 @@ yarn-error.log
 !.vscode/mcp.json
 .history/*
 
+# TypeScript
+*.tsbuildinfo
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/
@@ -36,9 +53,15 @@ yarn-error.log
 /coverage
 /libpeerconnection.log
 testem.log
-/typings
 __screenshots__/
 
 # System files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+desktop.ini
+
