@@ -1,0 +1,47 @@
+<section
+  id="skills"
+  class="skills section-padding"
+  aria-label="Skills and technology stack"
+>
+  <div class="container-max">
+    <div class="skills-header">
+      <div class="eyebrow reveal-skills">Expertise</div>
+      <h2 class="skills-title reveal-skills">Skills</h2>
+      <p class="skills-subtitle reveal-skills">
+        Technologies I work with daily.
+      </p>
+    </div>
+
+    <!-- Bento Grid -->
+    <div class="skills-grid" aria-label="Skills by category">
+      @for (cat of categories; track cat.name) {
+        <div
+          class="skill-cell reveal-cell spotlight-card"
+          [class]="'col-' + cat.colSpan"
+          [attr.aria-label]="cat.name + ' skills'"
+          (mousemove)="onCellMove($event, $any($event.currentTarget))"
+        >
+          <p class="cell-category text-label">{{ cat.name }}</p>
+          <div class="cell-skills">
+            @for (skill of cat.skills; track skill.name) {
+              <div class="skill-item" [attr.aria-label]="skill.name + ': ' + skill.level">
+                <span class="skill-name">{{ skill.name }}</span>
+                <span
+                  class="skill-level"
+                  [class]="'level-' + skill.level.toLowerCase()"
+                >{{ skill.level }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Accent cell: manifesto -->
+      <div class="skill-cell skill-cell--accent reveal-cell col-2" aria-hidden="true">
+        <p class="accent-quote">
+          "Code that performs.<br>Interfaces that feel.<br>Products that ship."
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

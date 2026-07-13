@@ -1,0 +1,153 @@
+<section
+  id="work"
+  class="work"
+  aria-label="Selected work"
+>
+  <!-- Section header (above the pinned track) -->
+  <div class="work-header container-max section-padding" style="padding-bottom: 0">
+    <div class="eyebrow reveal-fade-work">Projects</div>
+    <h2 class="work-title reveal-fade-work">Selected Work</h2>
+    <p class="work-subtitle reveal-fade-work">
+      A few things built with intent.
+    </p>
+  </div>
+
+  <!-- Horizontal track wrapper (desktop only) -->
+  <div class="work-track-wrapper" #trackWrapper>
+    <div class="work-track" #track>
+      @for (project of projects; track project.id; let i = $index) {
+        <article
+          class="project-card"
+          [style.--accent]="project.accent"
+          [style.--accent-rgb]="project.accentRgb"
+          [attr.aria-label]="'Project: ' + project.title"
+          [attr.id]="'project-' + project.id"
+        >
+          <!-- Left: Visual — rich CSS art panel -->
+          <div
+            class="project-visual"
+            [class]="'project-visual--' + project.visualClass"
+            aria-hidden="true"
+          >
+            <!-- Grid overlay -->
+            <div class="visual-grid"></div>
+            <!-- Accent orb -->
+            <div class="visual-orb"></div>
+            <!-- Large ghost number -->
+            <div class="project-num-large">{{ project.number }}</div>
+            <!-- Floating UI panels (CSS art) -->
+            <div class="visual-panel visual-panel--a">
+              <div class="panel-header">
+                <span class="panel-dot"></span>
+                <span class="panel-line"></span>
+              </div>
+              <div class="panel-body">
+                <div class="panel-row panel-row--long"></div>
+                <div class="panel-row panel-row--short"></div>
+                <div class="panel-row panel-row--med"></div>
+              </div>
+            </div>
+            <div class="visual-panel visual-panel--b">
+              <div class="panel-code-line"></div>
+              <div class="panel-code-line panel-code-line--indent"></div>
+              <div class="panel-code-line panel-code-line--indent accent"></div>
+              <div class="panel-code-line panel-code-line--indent"></div>
+            </div>
+            <!-- Accent border glow top -->
+            <div class="visual-glow-top"></div>
+          </div>
+
+          <!-- Right: Meta -->
+          <div class="project-meta">
+            <div class="project-top">
+              <span class="project-status eyebrow" [style.color]="project.accent" style="background: rgba(var(--accent-rgb), 0.08); border-color: rgba(var(--accent-rgb), 0.2)">
+                {{ project.status }}
+              </span>
+              <span class="project-num-sm">{{ project.number }} / 0{{ projects.length }}</span>
+            </div>
+
+            <div class="project-content">
+              <h3 class="project-title">{{ project.title }}</h3>
+              <p class="project-role">{{ project.role }} &middot; {{ project.year }}</p>
+              <p class="project-desc">{{ project.description }}</p>
+
+              <div class="project-tags" role="list" [attr.aria-label]="project.title + ' technologies'">
+                @for (tag of project.tags; track tag) {
+                  <span class="tag" role="listitem">{{ tag }}</span>
+                }
+              </div>
+            </div>
+
+            <div class="project-links">
+              @for (link of project.links; track link.label) {
+                <a
+                  [href]="link.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-link"
+                  [attr.aria-label]="link.label + ' for ' + project.title"
+                >
+                  <span>{{ link.label }}</span>
+                  <svg viewBox="0 0 16 16" fill="none" width="12" height="12" aria-hidden="true">
+                    <path d="M3 13 L13 3 M8 3 h5 v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              }
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+
+  <!-- Mobile: vertical fallback (shows automatically below md) -->
+  <div class="work-mobile container-max section-padding" style="padding-top: 2rem">
+    @for (project of projects; track project.id; let i = $index) {
+      <article
+        class="project-card-mobile reveal-fade-work"
+        [attr.aria-label]="'Project: ' + project.title"
+      >
+        <div class="pcm-visual" [class]="'project-visual--' + project.visualClass" aria-hidden="true">
+          <div class="visual-orb"></div>
+          <div class="pcm-num">{{ project.number }}</div>
+        </div>
+        <div class="pcm-body">
+          <p class="pcm-role eyebrow" [style.color]="project.accent">{{ project.status }}</p>
+          <h3 class="pcm-title">{{ project.title }}</h3>
+          <p class="pcm-desc">{{ project.description }}</p>
+          <div class="pcm-tags">
+            @for (tag of project.tags; track tag) {
+              <span class="tag">{{ tag }}</span>
+            }
+          </div>
+          <div class="pcm-links">
+            @for (link of project.links; track link.label) {
+              <a
+                [href]="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-link"
+                [attr.aria-label]="link.label + ' for ' + project.title"
+              >
+                <span>{{ link.label }}</span>
+                <svg viewBox="0 0 16 16" fill="none" width="12" height="12" aria-hidden="true">
+                  <path d="M3 13 L13 3 M8 3 h5 v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            }
+          </div>
+        </div>
+      </article>
+    }
+  </div>
+
+  <!-- Progress indicator (desktop) -->
+  <div class="work-progress" aria-hidden="true">
+    <div class="progress-track">
+      <div class="progress-fill" #progressFill></div>
+    </div>
+    <span class="progress-label font-mono">
+      {{ (activeIndex() + 1) }} / {{ projects.length }}
+    </span>
+  </div>
+</section>

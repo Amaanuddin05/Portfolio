@@ -21,35 +21,7 @@ interface TechItem {
 @Component({
   selector: 'app-tech-strip',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <section
-      class="tech-strip"
-      aria-label="Technology stack overview"
-    >
-      <div class="tech-strip-inner container-max">
-        <span class="tech-strip-label" aria-hidden="true">Stack</span>
-        <div class="tech-strip-divider" aria-hidden="true"></div>
-        <div class="tech-items" role="list">
-          @for (tech of techs; track tech.name) {
-            <div
-              class="tech-item"
-              role="listitem"
-              [attr.aria-label]="tech.name"
-              data-cursor-hover
-            >
-              <span
-                class="tech-icon"
-                [innerHTML]="tech.icon"
-                [style.color]="tech.color"
-                aria-hidden="true"
-              ></span>
-              <span class="tech-name">{{ tech.name }}</span>
-            </div>
-          }
-        </div>
-      </div>
-    </section>
-  `,
+  templateUrl: './tech-strip.component.html',
   styles: [`
     .tech-strip {
       position: relative;

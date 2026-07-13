@@ -15,17 +15,7 @@ import { isPlatformBrowser } from '@angular/common';
   selector: 'app-cursor',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { 'aria-hidden': 'true' },
-  template: `
-    <div
-      class="cursor-dot"
-      [style.transform]="'translate(' + dotX() + 'px, ' + dotY() + 'px)'"
-    ></div>
-    <div
-      class="cursor-ring"
-      [style.transform]="'translate(' + ringX() + 'px, ' + ringY() + 'px)'"
-      [class.cursor-ring--hover]="isHovering()"
-    ></div>
-  `,
+  templateUrl: './cursor.component.html',
   styles: [`
     :host {
       pointer-events: none;

@@ -30,33 +30,7 @@ import { ContactComponent } from './sections/contact/contact.component';
     ProcessComponent,
     ContactComponent,
   ],
-  template: `
-    <!-- Custom cursor (desktop) -->
-    <app-cursor />
-
-    <!-- Page loader -->
-    <app-page-loader (loaded)="onLoaded()" />
-
-    <!-- Command palette (Ctrl+K) -->
-    <app-command-palette #commandPalette />
-
-    <!-- Navigation -->
-    <app-nav />
-
-    <!-- Page content -->
-    <main id="main-content" tabindex="-1">
-      <app-hero />
-      <app-tech-strip />
-      <app-about />
-      <app-work />
-      <app-skills />
-      <app-process />
-      <app-contact />
-    </main>
-
-    <!-- Footer -->
-    <app-footer />
-  `,
+  templateUrl: './app.html',
   styles: [`
     :host {
       display: block;

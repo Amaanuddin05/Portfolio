@@ -3,21 +3,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 @Component({
   selector: 'app-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <footer class="footer" role="contentinfo">
-      <div class="footer-inner">
-        <span class="footer-name">Designed &amp; Developed by Md Amaanuddin</span>
-        <span class="footer-divider" aria-hidden="true">—</span>
-        <span class="footer-stack">
-          Angular <span class="dot" aria-hidden="true">•</span>
-          GSAP <span class="dot" aria-hidden="true">•</span>
-          Tailwind <span class="dot" aria-hidden="true">•</span>
-          TypeScript
-        </span>
-        <span class="footer-year" aria-label="Year 2025">2025</span>
-      </div>
-    </footer>
-  `,
+  templateUrl: './footer.component.html',
   styles: [`
     .footer {
       padding: 2rem clamp(1.5rem, 5vw, 5rem);

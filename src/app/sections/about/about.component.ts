@@ -16,68 +16,7 @@ gsap.registerPlugin(ScrollTrigger);
 @Component({
   selector: 'app-about',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <section
-      id="about"
-      class="about section-padding"
-      aria-label="About Amaan"
-    >
-      <div class="about-inner container-max">
-        <!-- Left: Text -->
-        <div class="about-text">
-          <div class="eyebrow reveal-fade">About</div>
-
-          <h2 class="about-heading">
-            <span class="about-heading-line reveal-line">I engineer systems</span>
-            <span class="about-heading-line reveal-line">that actually ship.</span>
-          </h2>
-
-          <p class="about-body reveal-fade">
-            I'm Amaan — a Full Stack Engineer with a focus on Angular frontends,
-            Node.js backends, and AI-powered products. I care about code that
-            performs at scale, interfaces that feel considered, and shipping things
-            that matter.
-          </p>
-
-          <p class="about-body reveal-fade">
-            Currently exploring the intersection of large language models and
-            production software — building agents, RAG pipelines, and tools
-            that augment how people work.
-          </p>
-        </div>
-
-        <!-- Right: Stats — card-based with animated counters -->
-        <div class="about-stats" aria-label="Key statistics">
-          <div class="stat-card reveal-fade spotlight-card" #stat1>
-            <div class="stat-inner">
-              <span class="stat-number counter-value" data-target="3" aria-label="3 plus years">0+</span>
-              <span class="stat-unit">yrs</span>
-            </div>
-            <span class="stat-label-text">Years building production apps</span>
-            <div class="stat-card-glow"></div>
-          </div>
-
-          <div class="stat-card reveal-fade spotlight-card" #stat2>
-            <div class="stat-inner">
-              <span class="stat-number counter-value" data-target="15" aria-label="15 plus projects">0+</span>
-              <span class="stat-unit">+</span>
-            </div>
-            <span class="stat-label-text">Projects shipped</span>
-            <div class="stat-card-glow"></div>
-          </div>
-
-          <div class="stat-card reveal-fade spotlight-card" #stat3>
-            <div class="stat-inner">
-              <span class="stat-number counter-value" data-target="5" aria-label="5 plus AI systems">0+</span>
-              <span class="stat-unit">+</span>
-            </div>
-            <span class="stat-label-text">AI systems & agents built</span>
-            <div class="stat-card-glow"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-  `,
+  templateUrl: './about.component.html',
   styles: [`
     .about {
       position: relative;

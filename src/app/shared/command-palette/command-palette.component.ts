@@ -22,77 +22,7 @@ interface CommandItem {
 @Component({
   selector: 'app-command-palette',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    @if (open()) {
-      <!-- Backdrop -->
-      <div
-        class="cp-backdrop"
-        (click)="close()"
-        role="presentation"
-        aria-hidden="true"
-      ></div>
-
-      <!-- Palette -->
-      <div
-        class="cp-panel"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Command palette"
-      >
-        <div class="cp-header">
-          <svg class="cp-search-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M13 13 L17 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          <input
-            #searchInput
-            class="cp-input"
-            type="text"
-            placeholder="Search or navigate..."
-            [value]="query()"
-            (input)="onInput($event)"
-            (keydown)="onKeyDown($event)"
-            aria-label="Search commands"
-            autocomplete="off"
-            spellcheck="false"
-          />
-          <kbd class="cp-esc" (click)="close()">ESC</kbd>
-        </div>
-
-        <div class="cp-list" role="listbox">
-          @for (item of filteredItems(); track item.id; let i = $index) {
-            <button
-              class="cp-item"
-              [class.cp-item--active]="activeIndex() === i"
-              role="option"
-              [attr.aria-selected]="activeIndex() === i"
-              (click)="execute(item)"
-              (mouseenter)="activeIndex.set(i)"
-            >
-              <span class="cp-item-icon" [innerHTML]="item.icon" aria-hidden="true"></span>
-              <span class="cp-item-content">
-                <span class="cp-item-label">{{ item.label }}</span>
-                <span class="cp-item-desc">{{ item.description }}</span>
-              </span>
-              <svg class="cp-item-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          }
-
-          @if (filteredItems().length === 0) {
-            <div class="cp-empty" role="status">No results for "{{ query() }}"</div>
-          }
-        </div>
-
-        <div class="cp-footer">
-          <span><kbd>↑↓</kbd> Navigate</span>
-          <span><kbd>↵</kbd> Select</span>
-          <span><kbd>ESC</kbd> Close</span>
-        </div>
-      </div>
-    }
-  `,
+  templateUrl: './command-palette.component.html',
   styles: [`
     .cp-backdrop {
       position: fixed;

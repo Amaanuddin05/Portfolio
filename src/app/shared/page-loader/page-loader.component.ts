@@ -12,69 +12,7 @@ import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'app-page-loader',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    @if (visible()) {
-      <div
-        class="loader-overlay"
-        [class.loader-overlay--exit]="exiting()"
-        aria-hidden="true"
-        role="presentation"
-      >
-        <!-- Background scanline -->
-        <div class="loader-bg-grid"></div>
-
-        <!-- Center content -->
-        <div class="loader-center">
-          <div class="loader-monogram">
-            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <!-- Outer glow ring -->
-              <circle
-                class="mono-ring"
-                cx="40" cy="40" r="34"
-                stroke="rgba(37, 99, 235, 0.12)"
-                stroke-width="1"
-                fill="none"
-              />
-              <!-- Animated "A" monogram -->
-              <path
-                class="mono-path"
-                d="M16 62 L40 14 L64 62"
-                stroke="#2563EB"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                fill="none"
-                pathLength="1"
-              />
-              <path
-                class="mono-path mono-path--cross"
-                d="M24 44 L56 44"
-                stroke="#2563EB"
-                stroke-width="2"
-                stroke-linecap="round"
-                fill="none"
-                pathLength="1"
-              />
-              <!-- Blue glow pulse -->
-              <circle
-                class="mono-glow"
-                cx="40" cy="40" r="10"
-                fill="rgba(37, 99, 235, 0.1)"
-              />
-            </svg>
-          </div>
-
-          <div class="loader-label">Amaan</div>
-          <div class="loader-sub">Loading experience...</div>
-        </div>
-
-        <!-- Bottom progress bar -->
-        <div class="loader-progress">
-          <div class="loader-progress-fill"></div>
-        </div>
-      </div>
-    }
-  `,
+  templateUrl: './page-loader.component.html',
   styles: [`
     .loader-overlay {
       position: fixed;
