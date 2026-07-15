@@ -5,7 +5,6 @@ import {
   OnDestroy,
   PLATFORM_ID,
   inject,
-  signal,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import gsap from 'gsap';
@@ -18,33 +17,36 @@ gsap.registerPlugin(ScrollTrigger);
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './about.component.html',
   styles: [`
+    /* ── About ─────────────────────────────────────── */
     .about {
       position: relative;
+      padding-top: clamp(5rem, 10vw, 9rem);
+      padding-bottom: clamp(5rem, 10vw, 9rem);
     }
 
     .about-inner {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 5rem;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 0 clamp(2.5rem, 5vw, 5rem);
       align-items: start;
     }
 
-    .about-text {
+    /* Left column ─── heading */
+    .about-left {
       display: flex;
       flex-direction: column;
-      gap: 1.75rem;
+      gap: 0;
     }
 
     .about-heading {
-      display: flex;
-      flex-direction: column;
       font-family: 'ClashDisplay', 'Plus Jakarta Sans', sans-serif;
       font-size: clamp(2.25rem, 4.5vw, 3.5rem);
       font-weight: 600;
-      letter-spacing: -0.04em;
-      line-height: 1.1;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
       color: #F2F2F2;
       margin: 0;
+      text-wrap: balance;
     }
 
     .about-heading-line {
@@ -52,116 +54,99 @@ gsap.registerPlugin(ScrollTrigger);
       overflow: hidden;
     }
 
+    /* Clip-reveal initial state */
     .reveal-line {
-      opacity: 0;
-      transform: translateY(30px);
+      display: block;
+      transform: translateY(110%);
+    }
+
+    /* Vertical divider */
+    .about-divider {
+      width: 1px;
+      background: rgba(255, 255, 255, 0.06);
+      align-self: stretch;
+      min-height: 100%;
+    }
+
+    /* Right column ─── bio + stats */
+    .about-right {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      padding-top: 0.25rem; /* optical alignment with heading cap-height */
     }
 
     .about-body {
       font-size: 1rem;
-      line-height: 1.85;
-      color: #5A5A6A;
+      line-height: 1.8;
+      /* #9E9EAF: 4.6:1 on #0A0A0B — WCAG AA */
+      color: #9E9EAF;
       max-width: 52ch;
-    }
-
-    .reveal-fade {
       opacity: 0;
       transform: translateY(20px);
     }
 
-    /* Stats — stacked cards */
+    /* Stats — horizontal ruled row */
     .about-stats {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      padding-top: 1rem;
+      gap: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .stat-card {
-      position: relative;
-      padding: 1.75rem 2rem;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: border-color 0.35s, box-shadow 0.35s;
-      cursor: default;
-    }
-
-    .stat-card:hover {
-      border-color: rgba(37, 99, 235, 0.2);
-      box-shadow: 0 0 40px rgba(37, 99, 235, 0.06);
-    }
-
-    .stat-inner {
+    .stat-row {
       display: flex;
       align-items: baseline;
-      gap: 0.25rem;
-      margin-bottom: 0.5rem;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      opacity: 0;
+      transform: translateX(-8px);
     }
 
     .stat-number {
-      font-family: 'ClashDisplay', sans-serif;
-      font-size: clamp(2.75rem, 5vw, 4rem);
+      font-family: 'ClashDisplay', 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
       font-weight: 600;
-      letter-spacing: -0.05em;
+      letter-spacing: -0.03em;
       color: #F2F2F2;
-      line-height: 1;
+      min-width: 3.5ch;
     }
 
-    .stat-unit {
-      font-family: 'ClashDisplay', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 500;
-      color: #3A3A4A;
-      line-height: 1;
-      align-self: flex-end;
-      padding-bottom: 0.2rem;
+    .stat-label {
+      font-size: 0.875rem;
+      /* #9E9EAF: AA-compliant */
+      color: #9E9EAF;
+      line-height: 1.4;
     }
 
-    .stat-label-text {
-      font-size: 0.8125rem;
-      color: #3A3A4A;
-      font-weight: 500;
-      line-height: 1.5;
-    }
-
-    /* Subtle accent corner glow */
-    .stat-card-glow {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 120px;
-      height: 120px;
-      background: radial-gradient(circle at bottom right, rgba(37, 99, 235, 0.08), transparent 70%);
-      pointer-events: none;
-    }
-
-    @media (max-width: 1024px) {
+    /* ── Responsive ────────────────────────────────── */
+    @media (max-width: 900px) {
       .about-inner {
         grid-template-columns: 1fr;
-        gap: 3rem;
+        gap: 2.5rem 0;
       }
 
-      .about-stats {
-        flex-direction: row;
-        padding-top: 0;
+      .about-divider {
+        width: 100%;
+        height: 1px;
+        min-height: unset;
+        align-self: auto;
       }
 
-      .stat-card {
-        flex: 1;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .about-stats {
-        flex-direction: column;
+      .about-heading {
+        font-size: clamp(2rem, 6vw, 2.75rem);
       }
     }
 
+    /* ── Reduced Motion ────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
-      .reveal-line,
-      .reveal-fade {
+      .reveal-line {
+        transform: none;
+      }
+
+      .about-body,
+      .stat-row {
         opacity: 1 !important;
         transform: none !important;
       }
@@ -174,79 +159,59 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
-    this.animateSection();
+    this.initAnimations();
   }
 
   ngOnDestroy(): void {
     this.ctx?.revert();
   }
 
-  private animateSection(): void {
+  private initAnimations(): void {
     const mm = gsap.matchMedia();
+
     mm.add('(prefers-reduced-motion: no-preference)', () => {
       this.ctx = gsap.context(() => {
-        // Heading lines
-        gsap.to('.reveal-line', {
+        // Clip-reveal heading lines — communicates structure emerging
+        const lines = document.querySelectorAll<HTMLElement>('.about .reveal-line');
+        gsap.to(lines, {
+          y: 0,
+          duration: 1.0,
+          ease: 'power4.out',
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: '.about',
+            start: 'top 75%',
+            once: true,
+          },
+        });
+
+        // Body paragraph — reveals after headings settle
+        gsap.to('.about .about-body', {
           opacity: 1,
           y: 0,
-          stagger: 0.12,
-          duration: 0.9,
+          duration: 0.8,
           ease: 'power3.out',
           scrollTrigger: {
-            trigger: '.about-heading',
-            start: 'top 82%',
+            trigger: '.about',
+            start: 'top 70%',
             once: true,
           },
+          delay: 0.25,
         });
 
-        // Body + stats
-        gsap.to('.reveal-fade', {
+        // Stats stagger — each row enters in sequence, communicates data arriving
+        const statRows = document.querySelectorAll<HTMLElement>('.about .stat-row');
+        gsap.to(statRows, {
           opacity: 1,
-          y: 0,
+          x: 0,
+          duration: 0.6,
+          ease: 'power3.out',
           stagger: 0.1,
-          duration: 0.7,
-          ease: 'power2.out',
           scrollTrigger: {
-            trigger: '#about',
-            start: 'top 72%',
+            trigger: '.about .about-stats',
+            start: 'top 80%',
             once: true,
           },
-        });
-
-        // Animated counters for stat numbers
-        const statCards = document.querySelectorAll('.stat-card');
-        statCards.forEach((card) => {
-          const numEl = card.querySelector('.stat-number') as HTMLElement | null;
-          if (!numEl) return;
-          const target = parseInt(numEl.dataset['target'] || '0', 10);
-
-          ScrollTrigger.create({
-            trigger: card,
-            start: 'top 85%',
-            once: true,
-            onEnter: () => {
-              const proxy = { val: 0 };
-              gsap.to(proxy, {
-                val: target,
-                duration: 1.8,
-                ease: 'power2.out',
-                onUpdate() {
-                  numEl.textContent = Math.round(proxy.val) + '+';
-                },
-              });
-            },
-          });
-        });
-
-        // Spotlight card mouse-tracking
-        document.querySelectorAll<HTMLElement>('.stat-card').forEach((card) => {
-          card.addEventListener('mousemove', (e: MouseEvent) => {
-            const rect = card.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / rect.width) * 100;
-            const y = ((e.clientY - rect.top) / rect.height) * 100;
-            card.style.setProperty('--mouse-x', `${x}%`);
-            card.style.setProperty('--mouse-y', `${y}%`);
-          });
         });
       });
     });

@@ -1,59 +1,42 @@
 <section
   id="about"
-  class="about section-padding"
+  class="about"
   aria-label="About Amaan"
 >
-  <div class="about-inner container-max">
-    <!-- Left: Text -->
-    <div class="about-text">
-      <div class="eyebrow reveal-fade">About</div>
-
+  <div class="about-inner container-max" style="padding-left: clamp(1.5rem, 5vw, 5rem); padding-right: clamp(1.5rem, 5vw, 5rem);">
+    <!-- Left: Heading -->
+    <div class="about-left">
       <h2 class="about-heading">
-        <span class="about-heading-line reveal-line">I engineer systems</span>
-        <span class="about-heading-line reveal-line">that actually ship.</span>
+        <span class="about-heading-line"><span class="reveal-line">I engineer systems</span></span>
+        <span class="about-heading-line"><span class="reveal-line">that actually ship.</span></span>
       </h2>
-
-      <p class="about-body reveal-fade">
-        I'm Amaan — a Full Stack Engineer with a focus on Angular frontends,
-        Node.js backends, and AI-powered products. I care about code that
-        performs at scale, interfaces that feel considered, and shipping things
-        that matter.
-      </p>
-
-      <p class="about-body reveal-fade">
-        Currently exploring the intersection of large language models and
-        production software — building agents, RAG pipelines, and tools
-        that augment how people work.
-      </p>
     </div>
 
-    <!-- Right: Stats — card-based with animated counters -->
-    <div class="about-stats" aria-label="Key statistics">
-      <div class="stat-card reveal-fade spotlight-card" #stat1>
-        <div class="stat-inner">
-          <span class="stat-number counter-value" data-target="3" aria-label="3 plus years">0+</span>
-          <span class="stat-unit">yrs</span>
-        </div>
-        <span class="stat-label-text">Years building production apps</span>
-        <div class="stat-card-glow"></div>
-      </div>
+    <!-- Vertical divider (desktop) -->
+    <div class="about-divider" aria-hidden="true"></div>
 
-      <div class="stat-card reveal-fade spotlight-card" #stat2>
-        <div class="stat-inner">
-          <span class="stat-number counter-value" data-target="15" aria-label="15 plus projects">0+</span>
-          <span class="stat-unit">+</span>
-        </div>
-        <span class="stat-label-text">Projects shipped</span>
-        <div class="stat-card-glow"></div>
-      </div>
+    <!-- Right: Bio + stats -->
+    <div class="about-right">
+      <p class="about-body">
+        Full Stack Engineer focused on Angular frontends, Node.js backends, and AI-powered
+        products. I care about code that performs at scale, interfaces that feel considered,
+        and shipping things that matter. Currently building agents, RAG pipelines, and tools
+        that sit at the intersection of LLMs and production software.
+      </p>
 
-      <div class="stat-card reveal-fade spotlight-card" #stat3>
-        <div class="stat-inner">
-          <span class="stat-number counter-value" data-target="5" aria-label="5 plus AI systems">0+</span>
-          <span class="stat-unit">+</span>
+      <div class="about-stats" aria-label="Key statistics">
+        <div class="stat-row">
+          <span class="stat-number" aria-label="3 plus years">3+</span>
+          <span class="stat-label">Years building production applications</span>
         </div>
-        <span class="stat-label-text">AI systems & agents built</span>
-        <div class="stat-card-glow"></div>
+        <div class="stat-row">
+          <span class="stat-number" aria-label="15 plus projects">15+</span>
+          <span class="stat-label">Projects shipped end to end</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-number" aria-label="5 plus AI systems">5+</span>
+          <span class="stat-label">AI systems and agents built</span>
+        </div>
       </div>
     </div>
   </div>
