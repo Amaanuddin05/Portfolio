@@ -19,16 +19,18 @@
     </a>
 
     <!-- Desktop Links -->
-    <div class="nav-links" role="list">
+    <ul class="nav-links" role="list">
       @for (link of navLinks; track link.href) {
-        <a
-          [href]="link.href"
-          class="nav-link"
-          role="listitem"
-          (click)="onNavClick($event, link.href)"
-        >{{ link.label }}</a>
+        <li role="listitem">
+          <a
+            [href]="link.href"
+            class="nav-link"
+            (click)="onNavClick($event, link.href)"
+            [attr.aria-current]="activeSection() === link.href.slice(1) ? 'true' : null"
+          >{{ link.label }}</a>
+        </li>
       }
-    </div>
+    </ul>
 
     <!-- CTA -->
     <a

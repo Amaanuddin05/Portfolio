@@ -74,11 +74,18 @@ gsap.registerPlugin(ScrollTrigger);
     }
 
     .nav-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
       display: flex;
       align-items: center;
       gap: 0.25rem;
       margin: 0 auto;
       padding: 0 1rem;
+    }
+
+    .nav-links li {
+      display: contents;
     }
 
     .nav-link {
@@ -245,11 +252,11 @@ gsap.registerPlugin(ScrollTrigger);
       display: flex;
       gap: 1.5rem;
       margin-top: 3rem;
-      color: #4A4A5A;
+      color: #7A7A8E;
     }
 
     .mobile-footer a {
-      color: #4A4A5A;
+      color: #7A7A8E;
       text-decoration: none;
       transition: color 0.2s;
     }
@@ -282,6 +289,10 @@ export class NavComponent implements OnInit, OnDestroy {
 
   scrolled = signal(false);
   menuOpen = signal(false);
+  activeSection = signal<string>('');
+
+  private observer?: IntersectionObserver;
+  private hamburgerBtn?: HTMLElement;
 
   readonly navLinks = [
     { label: 'About', href: '#about' },
@@ -293,12 +304,32 @@ export class NavComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.initSectionObserver();
   }
 
   ngOnDestroy(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     window.removeEventListener('scroll', this.onScroll);
+    this.observer?.disconnect();
     ScrollTrigger.getAll().forEach((t) => t.kill());
+  }
+
+  private initSectionObserver(): void {
+    const sectionIds = ['hero', 'about', 'work', 'skills', 'process', 'contact'];
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            this.activeSection.set(entry.target.id);
+          }
+        }
+      },
+      { rootMargin: '-40% 0px -55% 0px' }
+    );
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (el) this.observer.observe(el);
+    }
   }
 
   private onScroll = (): void => {
@@ -309,12 +340,62 @@ export class NavComponent implements OnInit, OnDestroy {
   };
 
   toggleMenu(): void {
-    this.menuOpen.update((v) => !v);
+    const willOpen = !this.menuOpen();
+    this.menuOpen.set(willOpen);
+
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    if (willOpen) {
+      // Store the hamburger button reference so we can return focus on close
+      this.hamburgerBtn = this.elRef.nativeElement.querySelector('.nav-hamburger') as HTMLElement;
+      // Focus first link in menu after render (one frame later)
+      setTimeout(() => {
+        const firstLink = document.querySelector('.mobile-menu .mobile-link') as HTMLElement | null;
+        firstLink?.focus();
+      }, 50);
+      // Attach keydown trap
+      document.addEventListener('keydown', this.trapFocus);
+    } else {
+      document.removeEventListener('keydown', this.trapFocus);
+      // Return focus to hamburger
+      setTimeout(() => this.hamburgerBtn?.focus(), 0);
+    }
   }
+
+  private trapFocus = (e: KeyboardEvent): void => {
+    if (!this.menuOpen()) return;
+    const menu = document.getElementById('mobile-menu');
+    if (!menu) return;
+    const focusable = Array.from(
+      menu.querySelectorAll<HTMLElement>('a[href], button, [tabindex]:not([tabindex="-1"])')
+    ).filter((el) => !el.hasAttribute('disabled'));
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.key === 'Tab') {
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      this.toggleMenu();
+    }
+  };
 
   onNavClick(e: Event, href: string): void {
     e.preventDefault();
     this.menuOpen.set(false);
+    document.removeEventListener('keydown', this.trapFocus);
+    setTimeout(() => this.hamburgerBtn?.focus(), 0);
     const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -324,6 +405,7 @@ export class NavComponent implements OnInit, OnDestroy {
   scrollToTop(e: Event): void {
     e.preventDefault();
     this.menuOpen.set(false);
+    document.removeEventListener('keydown', this.trapFocus);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
