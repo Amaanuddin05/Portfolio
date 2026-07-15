@@ -6,7 +6,6 @@ import { CommandPaletteComponent } from './shared/command-palette/command-palett
 import { NavComponent } from './layout/nav/nav.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { HeroComponent } from './sections/hero/hero.component';
-import { TechStripComponent } from './sections/tech-strip/tech-strip.component';
 import { AboutComponent } from './sections/about/about.component';
 import { WorkComponent } from './sections/work/work.component';
 import { SkillsComponent } from './sections/skills/skills.component';
@@ -23,7 +22,6 @@ import { ContactComponent } from './sections/contact/contact.component';
     NavComponent,
     FooterComponent,
     HeroComponent,
-    TechStripComponent,
     AboutComponent,
     WorkComponent,
     SkillsComponent,
