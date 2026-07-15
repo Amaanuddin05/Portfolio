@@ -65,3 +65,8 @@ ehthumbs.db
 Thumbs.db
 desktop.ini
 
+# AI development files
+/AGENTS.md
+/DESIGN.md
+/PRODUCT.md
+/PROJECT_STATUS.md
