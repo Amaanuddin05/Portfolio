@@ -1,65 +1,65 @@
 <section
   id="process"
-  class="process section-padding"
+  class="process"
   aria-label="Engineering process"
 >
-  <div class="container-max">
-    <div class="process-header">
-      <h2 class="process-title reveal-process">How I work</h2>
-      <p class="process-subtitle reveal-process">
-        From ambiguous problem to shipped product.
-      </p>
-    </div>
+  <div class="process-header">
+    <h2 class="process-heading">
+      <span class="heading-inner">How I work</span>
+    </h2>
+    <p class="process-sub">From ambiguous problem to shipped product.</p>
+  </div>
 
-    <!-- Sticky stack (desktop) -->
-    <div class="process-stack" #processStack>
-      @for (step of steps; track step.number; let i = $index) {
-        <div
-          class="process-card"
-          [attr.id]="'step-' + step.number"
-          [attr.aria-label]="'Step ' + step.number + ': ' + step.title"
-          #processCard
-        >
-          <div class="card-shell">
-            <div class="card-inner">
-              <!-- Left -->
-              <div class="card-left">
-                <div class="step-num" [style.color]="step.accent">{{ step.number }}</div>
-                <h3 class="step-title">{{ step.title }}</h3>
-                <p class="step-desc">{{ step.description }}</p>
-              </div>
+  <!-- Sticky stack (desktop) -->
+  <div class="process-stack">
+    @for (step of steps; track step.number; let i = $index) {
+      <div
+        class="process-card"
+        [style.--step-accent]="step.accent"
+        [attr.id]="'step-' + step.number"
+        [attr.aria-label]="'Step ' + step.number + ': ' + step.title"
+        #processCard
+      >
+        <div class="card-shell">
+          <div class="card-inner">
+            <!-- Left: number + title + description -->
+            <div class="card-left">
+              <span class="step-num">{{ step.number }}</span>
+              <h3 class="step-title">{{ step.title }}</h3>
+              <p class="step-desc">{{ step.description }}</p>
+            </div>
 
-              <!-- Right -->
-              <div class="card-right">
-                <div class="step-icon" [style.background]="step.accent + '15'" aria-hidden="true">
-                  <span [innerHTML]="step.icon" aria-hidden="true"></span>
-                </div>
-                <ul class="step-details" [attr.aria-label]="step.title + ' details'">
-                  @for (detail of step.details; track detail) {
-                    <li class="step-detail">
-                      <span class="detail-dot" [style.background]="step.accent" aria-hidden="true"></span>
-                      <span>{{ detail }}</span>
-                    </li>
-                  }
-                </ul>
-              </div>
+            <!-- Right: detail list -->
+            <div class="card-right">
+              <ul class="step-details" [attr.aria-label]="step.title + ' details'">
+                @for (detail of step.details; track detail) {
+                  <li class="step-detail">
+                    <span class="detail-rule" aria-hidden="true"></span>
+                    <span>{{ detail }}</span>
+                  </li>
+                }
+              </ul>
             </div>
           </div>
         </div>
-      }
-    </div>
+      </div>
+    }
+  </div>
 
-    <!-- Mobile: simple vertical (no stacking) -->
-    <div class="process-mobile">
-      @for (step of steps; track step.number) {
-        <div class="process-mobile-step reveal-process-m">
-          <div class="pm-num" [style.color]="step.accent">{{ step.number }}</div>
-          <div class="pm-body">
-            <h3 class="pm-title">{{ step.title }}</h3>
-            <p class="pm-desc">{{ step.description }}</p>
-          </div>
+  <!-- Mobile: simple vertical list -->
+  <div class="process-mobile">
+    @for (step of steps; track step.number) {
+      <div
+        class="process-mobile-step"
+        [style.--step-accent]="step.accent"
+        [attr.aria-label]="'Step ' + step.number + ': ' + step.title"
+      >
+        <span class="pm-num" [style.color]="step.accent">{{ step.number }}</span>
+        <div class="pm-body">
+          <h3 class="pm-title">{{ step.title }}</h3>
+          <p class="pm-desc">{{ step.description }}</p>
         </div>
-      }
-    </div>
+      </div>
+    }
   </div>
 </section>
