@@ -1,47 +1,81 @@
 <section
   id="skills"
-  class="skills section-padding"
+  class="skills"
   aria-label="Skills and technology stack"
 >
-  <div class="container-max">
-    <div class="skills-header">
-      <div class="eyebrow reveal-skills">Expertise</div>
-      <h2 class="skills-title reveal-skills">Skills</h2>
-      <p class="skills-subtitle reveal-skills">
-        Technologies I work with daily.
-      </p>
-    </div>
+  <div
+    class="skills-layout container-max"
+    style="padding-left: clamp(1.5rem, 5vw, 5rem); padding-right: clamp(1.5rem, 5vw, 5rem);"
+  >
+    <!-- Left: Heading + skill rows -->
+    <div class="skills-left">
+      <h2 class="skills-heading">
+        <span class="heading-inner">Built on a strong stack.</span>
+      </h2>
 
-    <!-- Bento Grid -->
-    <div class="skills-grid" aria-label="Skills by category">
-      @for (cat of categories; track cat.name) {
-        <div
-          class="skill-cell reveal-cell spotlight-card"
-          [class]="'col-' + cat.colSpan"
-          [attr.aria-label]="cat.name + ' skills'"
-          (mousemove)="onCellMove($event, $any($event.currentTarget))"
-        >
-          <p class="cell-category text-label">{{ cat.name }}</p>
-          <div class="cell-skills">
-            @for (skill of cat.skills; track skill.name) {
-              <div class="skill-item" [attr.aria-label]="skill.name + ': ' + skill.level">
-                <span class="skill-name">{{ skill.name }}</span>
-                <span
-                  class="skill-level"
-                  [class]="'level-' + skill.level.toLowerCase()"
-                >{{ skill.level }}</span>
-              </div>
-            }
-          </div>
+      <!-- Primary Stack -->
+      <p class="tier-label">Primary Stack</p>
+
+      @for (cat of primaryCategories; track cat.id) {
+        <div class="skill-row" [attr.aria-label]="cat.name + ': ' + cat.skills.join(', ')">
+          <!-- Small monochrome icon next to category title -->
+          <svg
+            class="row-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path [attr.d]="cat.icon" />
+          </svg>
+          <span class="row-category">{{ cat.name }}</span>
+          <span class="row-skills">{{ cat.skills.join(' · ') }}</span>
         </div>
       }
 
-      <!-- Accent cell: manifesto -->
-      <div class="skill-cell skill-cell--accent reveal-cell col-2" aria-hidden="true">
-        <p class="accent-quote">
-          "Code that performs.<br>Interfaces that feel.<br>Products that ship."
+      <!-- Also Working With -->
+      <p class="tier-label">Also Working With</p>
+
+      @for (cat of alsoCategories; track cat.id) {
+        <div class="skill-row" [attr.aria-label]="cat.name + ': ' + cat.skills.join(', ')">
+          <svg
+            class="row-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path [attr.d]="cat.icon" />
+          </svg>
+          <span class="row-category">{{ cat.name }}</span>
+          <span class="row-skills">{{ cat.skills.join(' · ') }}</span>
+        </div>
+      }
+    </div>
+
+    <!-- Vertical divider (desktop) -->
+    <div class="skills-divider" aria-hidden="true"></div>
+
+    <!-- Right: Statement -->
+    <div class="skills-right">
+      <div>
+        <p class="skills-statement">
+          <span class="statement-inner">Code that performs.<br>Interfaces that feel.<br>Products that ship.</span>
         </p>
+        <div class="skills-accent-rule" aria-hidden="true"></div>
       </div>
+
+      <p class="skills-coda">
+        I choose tools that solve the problem well. Angular for complex frontends,
+        Node.js where speed matters, LangChain when intelligence is the product.
+        Every decision is deliberate.
+      </p>
     </div>
   </div>
 </section>
