@@ -3,96 +3,81 @@
   class="work"
   aria-label="Selected work"
 >
-  <!-- Section header (above the pinned track) -->
-  <div class="work-header container-max section-padding" style="padding-bottom: 0">
-    <div class="eyebrow reveal-fade-work">Projects</div>
-    <h2 class="work-title reveal-fade-work">Selected Work</h2>
-    <p class="work-subtitle reveal-fade-work">
-      A few things built with intent.
-    </p>
+  <!-- Section header -->
+  <div class="work-header container-max" style="padding-left: clamp(1.5rem, 5vw, 5rem); padding-right: clamp(1.5rem, 5vw, 5rem);">
+    <h2 class="work-title">
+      <span class="work-title-inner">Selected Work</span>
+    </h2>
+    <span class="work-count" aria-hidden="true">{{ projects.length }} Projects</span>
   </div>
 
-  <!-- Horizontal track wrapper (desktop only) -->
-  <div class="work-track-wrapper" #trackWrapper>
+  <!-- Desktop: Horizontal scroll track -->
+  <div
+    class="work-track-wrapper"
+    #trackWrapper
+    role="region"
+    aria-label="Project carousel — use arrow keys to navigate"
+    tabindex="0"
+    [attr.aria-activedescendant]="'project-' + projects[activeIndex()].id"
+    (keydown)="onTrackKeydown($event)"
+  >
     <div class="work-track" #track>
       @for (project of projects; track project.id; let i = $index) {
         <article
           class="project-card"
           [style.--accent]="project.accent"
           [style.--accent-rgb]="project.accentRgb"
-          [attr.aria-label]="'Project: ' + project.title"
+          [attr.aria-label]="'Project ' + (i + 1) + ' of ' + projects.length + ': ' + project.title"
           [attr.id]="'project-' + project.id"
         >
-          <!-- Left: Visual — rich CSS art panel -->
-          <div
-            class="project-visual"
-            [class]="'project-visual--' + project.visualClass"
-            aria-hidden="true"
-          >
-            <!-- Grid overlay -->
-            <div class="visual-grid"></div>
-            <!-- Accent orb -->
-            <div class="visual-orb"></div>
-            <!-- Large ghost number -->
-            <div class="project-num-large">{{ project.number }}</div>
-            <!-- Floating UI panels (CSS art) -->
-            <div class="visual-panel visual-panel--a">
-              <div class="panel-header">
-                <span class="panel-dot"></span>
-                <span class="panel-line"></span>
-              </div>
-              <div class="panel-body">
-                <div class="panel-row panel-row--long"></div>
-                <div class="panel-row panel-row--short"></div>
-                <div class="panel-row panel-row--med"></div>
-              </div>
-            </div>
-            <div class="visual-panel visual-panel--b">
-              <div class="panel-code-line"></div>
-              <div class="panel-code-line panel-code-line--indent"></div>
-              <div class="panel-code-line panel-code-line--indent accent"></div>
-              <div class="panel-code-line panel-code-line--indent"></div>
-            </div>
-            <!-- Accent border glow top -->
-            <div class="visual-glow-top"></div>
+          <!-- Left: Real UI mockup -->
+          <div class="project-visual" aria-hidden="true">
+            <img
+              class="project-mockup"
+              [src]="project.mockup"
+              [alt]="project.title + ' application screenshot'"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
 
           <!-- Right: Meta -->
           <div class="project-meta">
             <div class="project-top">
-              <span class="project-status eyebrow" [style.color]="project.accent" style="background: rgba(var(--accent-rgb), 0.08); border-color: rgba(var(--accent-rgb), 0.2)">
-                {{ project.status }}
-              </span>
+              <span class="project-status">{{ project.status }}</span>
               <span class="project-num-sm">{{ project.number }} / 0{{ projects.length }}</span>
             </div>
 
             <div class="project-content">
               <h3 class="project-title">{{ project.title }}</h3>
-              <p class="project-role">{{ project.role }} &middot; {{ project.year }}</p>
+              <p class="project-role">{{ project.role }}</p>
               <p class="project-desc">{{ project.description }}</p>
 
-              <div class="project-tags" role="list" [attr.aria-label]="project.title + ' technologies'">
+              <div class="project-tags" aria-label="Technologies used">
                 @for (tag of project.tags; track tag) {
-                  <span class="tag" role="listitem">{{ tag }}</span>
+                  <span class="tag">{{ tag }}</span>
                 }
               </div>
-            </div>
 
-            <div class="project-links">
-              @for (link of project.links; track link.label) {
-                <a
-                  [href]="link.url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="project-link"
-                  [attr.aria-label]="link.label + ' for ' + project.title"
-                >
-                  <span>{{ link.label }}</span>
-                  <svg viewBox="0 0 16 16" fill="none" width="12" height="12" aria-hidden="true">
-                    <path d="M3 13 L13 3 M8 3 h5 v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </a>
-              }
+              <div class="project-links">
+                @for (link of project.links; track link.label; let first = $first) {
+                  <a
+                    [href]="link.url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="project-link"
+                    [class.project-link--primary]="first"
+                    [attr.aria-label]="link.label + ' for ' + project.title"
+                  >
+                    {{ link.label }}
+                    @if (first) {
+                      <svg viewBox="0 0 16 16" fill="none" width="12" height="12" aria-hidden="true">
+                        <path d="M3 13 L13 3 M8 3 h5 v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    }
+                  </a>
+                }
+              </div>
             </div>
           </div>
         </article>
@@ -100,54 +85,67 @@
     </div>
   </div>
 
-  <!-- Mobile: vertical fallback (shows automatically below md) -->
-  <div class="work-mobile container-max section-padding" style="padding-top: 2rem">
+  <!-- Progress bar -->
+  <div class="work-progress" aria-hidden="true">
+    <span class="progress-label">Scroll to explore</span>
+    <div class="progress-track">
+      <div class="progress-fill" #progressFill></div>
+    </div>
+    <span class="progress-label">{{ projects[activeIndex()].number }} / 0{{ projects.length }}</span>
+  </div>
+
+  <!-- Mobile: Vertical stacked cards -->
+  <div
+    class="work-mobile container-max"
+    style="padding-left: clamp(1.5rem, 5vw, 5rem); padding-right: clamp(1.5rem, 5vw, 5rem);"
+  >
     @for (project of projects; track project.id; let i = $index) {
       <article
-        class="project-card-mobile reveal-fade-work"
-        [attr.aria-label]="'Project: ' + project.title"
+        class="mobile-card"
+        [style.--accent]="project.accent"
+        [style.--accent-rgb]="project.accentRgb"
+        [attr.aria-label]="project.title"
+        [attr.id]="'project-mobile-' + project.id"
       >
-        <div class="pcm-visual" [class]="'project-visual--' + project.visualClass" aria-hidden="true">
-          <div class="visual-orb"></div>
-          <div class="pcm-num">{{ project.number }}</div>
+        <div class="mobile-mockup-wrap">
+          <img
+            class="mobile-mockup"
+            [src]="project.mockup"
+            [alt]="project.title + ' application screenshot'"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
-        <div class="pcm-body">
-          <p class="pcm-role eyebrow" [style.color]="project.accent">{{ project.status }}</p>
-          <h3 class="pcm-title">{{ project.title }}</h3>
-          <p class="pcm-desc">{{ project.description }}</p>
-          <div class="pcm-tags">
+
+        <div class="mobile-meta">
+          <div class="mobile-top">
+            <span class="project-status">{{ project.status }}</span>
+            <span class="project-num-sm">{{ project.number }}</span>
+          </div>
+          <h3 class="project-title">{{ project.title }}</h3>
+          <p class="project-role">{{ project.role }}</p>
+          <p class="project-desc">{{ project.description }}</p>
+
+          <div class="project-tags">
             @for (tag of project.tags; track tag) {
               <span class="tag">{{ tag }}</span>
             }
           </div>
-          <div class="pcm-links">
-            @for (link of project.links; track link.label) {
+
+          <div class="project-links">
+            @for (link of project.links; track link.label; let first = $first) {
               <a
                 [href]="link.url"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="project-link"
+                [class.project-link--primary]="first"
                 [attr.aria-label]="link.label + ' for ' + project.title"
-              >
-                <span>{{ link.label }}</span>
-                <svg viewBox="0 0 16 16" fill="none" width="12" height="12" aria-hidden="true">
-                  <path d="M3 13 L13 3 M8 3 h5 v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
+              >{{ link.label }}</a>
             }
           </div>
         </div>
       </article>
     }
-  </div>
-
-  <!-- Progress indicator (desktop) -->
-  <div class="work-progress" aria-hidden="true">
-    <div class="progress-track">
-      <div class="progress-fill" #progressFill></div>
-    </div>
-    <span class="progress-label font-mono">
-      {{ (activeIndex() + 1) }} / {{ projects.length }}
-    </span>
   </div>
 </section>
