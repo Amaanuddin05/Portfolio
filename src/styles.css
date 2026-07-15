@@ -25,8 +25,12 @@
   --color-border-hover: rgba(255, 255, 255, 0.12);
 
   --color-text-primary: #F2F2F2;
-  --color-text-secondary: #8A8A9A;
-  --color-text-tertiary: #4A4A5A;
+  /* AA-compliant against #0A0A0B: 4.6:1 */
+  --color-text-secondary: #9E9EAF;
+  /* Decorative only — 3.2:1, use for non-readable metadata */
+  --color-text-muted: #7A7A8E;
+  /* BANNED for readable text — 2.4:1 fails WCAG AA; decorative SVG only */
+  --color-text-tertiary: #6B6B7E;
 
   --color-accent: #2563EB;
   --color-accent-glow: #1D4ED8;
@@ -43,6 +47,7 @@
 
   /* Easing */
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1); /* alias — exponential ease-out, primary motion curve */
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-in-premium: cubic-bezier(0.4, 0, 1, 1);
 }
@@ -67,6 +72,10 @@ body {
   background-color: var(--color-bg-base);
   color: var(--color-text-primary);
   font-family: var(--font-body);
+  font-size: 1rem; /* explicit 16px base — respects user browser zoom */
+  line-height: 1.6; /* dark-bg baseline: slightly open for legibility */
+  font-kerning: normal;
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -143,6 +152,26 @@ body {
 }
 
 /* ─────────────────────────────────────────────
+   TABULAR NUMBERS
+   Numbers in stat cards, counters, and progress
+   labels must never reflow as digits change.
+   ───────────────────────────────────────────── */
+.counter-value,
+.stat-num,
+.progress-label,
+.font-mono {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Small-caps / abbreviation treatment */
+abbr[title] {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.04em;
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+/* ─────────────────────────────────────────────
    SCROLLBAR (subtle dark)
    ───────────────────────────────────────────── */
 ::-webkit-scrollbar {
@@ -182,6 +211,21 @@ body {
 }
 
 /* ─────────────────────────────────────────────
+   VISUALLY HIDDEN (screen-reader only)
+   ───────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ─────────────────────────────────────────────
    DOUBLE-BEZEL CARD UTILITY
    ───────────────────────────────────────────── */
 .bezel-card {
@@ -198,13 +242,28 @@ body {
 }
 
 /* ─────────────────────────────────────────────
-   GRADIENT TEXT UTILITY
+   SKIP LINK (keyboard / screen-reader)
    ───────────────────────────────────────────── */
-.gradient-text {
-  background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-accent-hover) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 10001;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-accent);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: 0 0 8px 8px;
+  text-decoration: none;
+  outline: none;
+  transition: top 0.1s;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 2px;
 }
 
 /* ─────────────────────────────────────────────
@@ -293,28 +352,8 @@ body::after {
   opacity: 1;
 }
 
-/* ─────────────────────────────────────────────
-   SHIMMER KEYFRAME
-   ───────────────────────────────────────────── */
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-.shimmer-text {
-  background: linear-gradient(
-    90deg,
-    var(--color-text-secondary) 0%,
-    var(--color-text-primary) 40%,
-    var(--color-text-secondary) 60%,
-    var(--color-text-secondary) 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 4s linear infinite;
-}
+/* .shimmer-text and @keyframes shimmer removed — banned by design system.
+   Use color: var(--color-text-primary) or var(--color-text-secondary) instead. */
 
 /* ─────────────────────────────────────────────
    MAGNETIC BUTTON BASE

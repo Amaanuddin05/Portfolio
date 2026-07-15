@@ -73,7 +73,8 @@ interface CommandItem {
     .cp-search-icon {
       width: 18px;
       height: 18px;
-      color: #4A4A5A;
+      /* Decorative search affordance */
+      color: #6B6B7E;
       flex-shrink: 0;
     }
 
@@ -89,13 +90,14 @@ interface CommandItem {
     }
 
     .cp-input::placeholder {
-      color: #4A4A5A;
+      /* Decorative placeholder */
+      color: #6B6B7E;
     }
 
     .cp-esc {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6875rem;
-      color: #4A4A5A;
+      color: #6B6B7E;
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 6px;
       padding: 0.2rem 0.5rem;
@@ -104,7 +106,7 @@ interface CommandItem {
     }
 
     .cp-esc:hover {
-      color: #8A8A9A;
+      color: #9E9EAF;
       border-color: rgba(255, 255, 255, 0.15);
     }
 
@@ -166,7 +168,8 @@ interface CommandItem {
 
     .cp-item-desc {
       font-size: 0.75rem;
-      color: #4A4A5A;
+      /* Decorative command description */
+      color: #6B6B7E;
     }
 
     .cp-item-arrow {
@@ -181,7 +184,8 @@ interface CommandItem {
     .cp-empty {
       padding: 2rem;
       text-align: center;
-      color: #4A4A5A;
+      /* Muted empty state */
+      color: #6B6B7E;
       font-size: 0.875rem;
     }
 
@@ -192,7 +196,8 @@ interface CommandItem {
       border-top: 1px solid rgba(255, 255, 255, 0.06);
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6875rem;
-      color: #4A4A5A;
+      /* Decorative keybinding footer */
+      color: #6B6B7E;
     }
 
     .cp-footer kbd {
