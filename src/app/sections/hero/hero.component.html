@@ -17,9 +17,9 @@
 
   <div class="hero-content container-max">
     <!-- Left: Text -->
-    <div class="hero-text" #heroText>
+    <div class="hero-text">
       <!-- Status badge -->
-      <div class="hero-badge" #heroBadge aria-label="Currently available for work">
+      <div class="hero-badge" #heroBadge>
         <span class="badge-dot" aria-hidden="true"></span>
         <span>Available for work</span>
       </div>
@@ -32,16 +32,15 @@
       </h1>
 
       <!-- Title -->
-      <p class="hero-title" aria-label="Full Stack Engineer">
+      <p class="hero-title">
         <span class="clip-reveal">
           <span class="line-inner" #titleLine>Full Stack Engineer</span>
         </span>
       </p>
 
-      <!-- Manifesto -->
+      <!-- Manifesto: no hard breaks — let max-width govern wrapping -->
       <p class="hero-manifesto" #heroManifesto>
-        Building products where performance,<br>
-        design, and AI work together.
+        Building products where performance, design, and AI work together.
       </p>
 
       <!-- CTA -->
@@ -75,13 +74,21 @@
       </div>
 
       <!-- Keyboard shortcut hint -->
-      <div class="hero-kbd-hint" #heroKbd>
-        <kbd>Ctrl</kbd> + <kbd>K</kbd>
-        <span>to navigate</span>
+      <div
+        class="hero-kbd-hint"
+        #heroKbd
+        aria-label="Press Ctrl K to open command palette"
+      >
+        <kbd aria-hidden="true">Ctrl</kbd>
+        <span aria-hidden="true">+</span>
+        <kbd aria-hidden="true">K</kbd>
+        <span aria-hidden="true">to navigate</span>
       </div>
     </div>
 
     <!-- Right: Decorative visual (desktop) -->
+    <!-- Stats summary for screen readers (outside aria-hidden wrapper) -->
+    <span class="sr-only">3+ years experience, 15+ projects shipped, 5+ AI systems built.</span>
     <div class="hero-visual" aria-hidden="true" #heroVisual>
       <div class="hero-card-stack">
         <!-- Floating code-style card - with glow border -->
@@ -109,11 +116,11 @@
           </div>
         </div>
 
-        <!-- Stats card -->
-        <div class="hero-stats-card">
+        <!-- Stats card — decorative visual but carries meaning; SR summary below -->
+        <div class="hero-stats-card" aria-hidden="true">
           <div class="stat-item">
             <span class="stat-num counter-value">3+</span>
-            <span class="stat-label">Years Exp.</span>
+            <span class="stat-label">Years Exp</span>
           </div>
           <div class="stat-divider"></div>
           <div class="stat-item">

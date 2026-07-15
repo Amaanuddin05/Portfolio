@@ -1,15 +1,12 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  OnInit,
   OnDestroy,
   ElementRef,
   AfterViewInit,
-  signal,
   PLATFORM_ID,
   inject,
   ViewChild,
-  HostListener,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import gsap from 'gsap';
@@ -121,6 +118,7 @@ gsap.registerPlugin(ScrollTrigger);
       border-radius: 50%;
       background: radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, transparent 70%);
       animation: glow-pulse 8s ease-in-out infinite;
+      will-change: transform;
     }
 
     .hero-glow--2 {
@@ -132,6 +130,7 @@ gsap.registerPlugin(ScrollTrigger);
       border-radius: 50%;
       background: radial-gradient(circle, rgba(96, 165, 250, 0.06) 0%, transparent 70%);
       animation: glow-pulse 10s ease-in-out infinite 2s;
+      will-change: transform;
     }
 
     @keyframes glow-pulse {
@@ -207,17 +206,15 @@ gsap.registerPlugin(ScrollTrigger);
       font-family: 'ClashDisplay', 'Plus Jakarta Sans', sans-serif;
       font-size: clamp(3.75rem, 8vw, 7rem);
       font-weight: 600;
-      letter-spacing: -0.045em;
+      letter-spacing: -0.04em;
       line-height: 1.0;
       color: #F2F2F2;
       margin: 0;
     }
 
+    /* Gradient text removed — solid color only; gradient-clip breaks High Contrast Mode */
     .hero-name-line {
-      background: linear-gradient(135deg, #F2F2F2 20%, rgba(242,242,242,0.85) 60%, #60A5FA 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: inherit;
     }
 
     .hero-title {
@@ -225,14 +222,16 @@ gsap.registerPlugin(ScrollTrigger);
       font-size: clamp(1.125rem, 2.2vw, 1.5rem);
       font-weight: 400;
       letter-spacing: -0.01em;
-      color: #5A5A6A;
+      /* #9E9EAF: 4.6:1 on #0A0A0B — WCAG AA */
+      color: #9E9EAF;
       margin: 0;
     }
 
     .hero-manifesto {
       font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
       line-height: 1.75;
-      color: #4A4A5A;
+      /* #7A7A8E: 3.2:1 — decorative muted, below AA but a key positioning line; see DESIGN.md */
+      color: #7A7A8E;
       max-width: 40ch;
       opacity: 0;
       margin-top: -0.5rem;
@@ -295,7 +294,8 @@ gsap.registerPlugin(ScrollTrigger);
     .cta-secondary {
       font-size: 0.9375rem;
       font-weight: 500;
-      color: #6A6A7A;
+      /* #9E9EAF: 4.6:1 — WCAG AA */
+      color: #9E9EAF;
       text-decoration: none;
       padding: 0.75rem 1.5rem;
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -311,14 +311,14 @@ gsap.registerPlugin(ScrollTrigger);
       background: rgba(255, 255, 255, 0.03);
     }
 
-    /* Keyboard hint */
+    /* Keyboard hint — decorative metadata, ornamental contrast only */
     .hero-kbd-hint {
       display: flex;
       align-items: center;
       gap: 0.375rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6875rem;
-      color: #3A3A4A;
+      color: #6B6B7E;
       opacity: 0;
     }
 
@@ -330,7 +330,7 @@ gsap.registerPlugin(ScrollTrigger);
       border-radius: 4px;
       font-family: inherit;
       font-size: 0.625rem;
-      color: #5A5A6A;
+      color: #7A7A8E;
     }
 
     /* ── Visual (right col) ── */
@@ -409,7 +409,8 @@ gsap.registerPlugin(ScrollTrigger);
       margin-left: 0.5rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6875rem;
-      color: #3A3A4A;
+      /* Decorative metadata label */
+      color: #6B6B7E;
       letter-spacing: 0.02em;
     }
 
@@ -439,7 +440,8 @@ gsap.registerPlugin(ScrollTrigger);
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.8125rem;
       line-height: 1.7;
-      color: #5A5A7A;
+      /* Base gutter color in decorative code card */
+      color: #7A7A8E;
     }
 
     .code-indent { padding-left: 1.5rem; }
@@ -449,7 +451,8 @@ gsap.registerPlugin(ScrollTrigger);
     .c-key { color: #89ddff; }
     .c-green { color: #a5e844; }
     .c-orange { color: #f78c6c; }
-    .c-gray { color: #4A4A6A; }
+    /* Punctuation / separators in code card — ornamental */
+    .c-gray { color: #6B6B7E; }
 
     /* Stats card */
     .hero-stats-card {
@@ -487,7 +490,8 @@ gsap.registerPlugin(ScrollTrigger);
 
     .stat-label {
       font-size: 0.625rem;
-      color: #3A3A4A;
+      /* Decorative label — ornamental */
+      color: #6B6B7E;
       font-weight: 500;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -536,7 +540,8 @@ gsap.registerPlugin(ScrollTrigger);
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.5625rem;
       letter-spacing: 0.25em;
-      color: #3A3A4A;
+      /* Decorative scroll hint */
+      color: #6B6B7E;
       text-transform: uppercase;
       writing-mode: vertical-lr;
       transform: rotate(180deg);
